@@ -146,71 +146,153 @@ def permCipher():
     # print(permuted_alphabet)
 
 def simpleTransp():
-    plainText = input("Enter plaintext: ")
-    plainText = plainText.replace(" ", "")
-    keyChoice = input("1) Encryption Key \n2) Default key ")
-    if keyChoice == "":
-        print("ERROR: no key detected")
-    elif keyChoice == "1":
-        key = (input("Enter key: "))
-    elif keyChoice == "2":
-        key = "HACK"
+    choice = input("1) Encryption \n2) Decryption ")
+    if choice == "1":
+        plainText = input("Enter plaintext: ")
+        plainText = plainText.replace(" ", "")
+        keyChoice = input("1) Encryption Key \n2) Default key ")
+        if keyChoice == "":
+            print("ERROR: no key detected")
+        elif keyChoice == "1":
+            key = (input("Enter key: "))
+        elif keyChoice == "2":
+            key = "HACK"
 
-    while len(plainText) % len(key) != 0:
-        plainText += "X"
+        while len(plainText) % len(key) != 0:
+            plainText += "X"
 
-    keyOrder = sorted(list(key))
-    columns = len(key)
-    rows = len(plainText) // columns
-    matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
+        keyOrder = sorted(list(key))
+        columns = len(key)
+        rows = len(plainText) // columns
+        matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
 
-    transposed = ''
-    for k in keyOrder:
-        index = key.index(k)
-        for row in matrix:
-            transposed += row[index]
+        transposed = ''
+        for k in keyOrder:
+            index = key.index(k)
+            for row in matrix:
+                transposed += row[index]
 
-    print(transposed)
+        print("Ciphertext: " + transposed)
+    elif choice == "2":
+        cipherText = input("Enter ciphertext: ")
+        keyChoice = input("1) Encryption Key \n2) Default key ")
+        if keyChoice == "":
+            print("ERROR: no key detected")
+        elif keyChoice == "1":
+            key = (input("Enter key: "))
+        elif keyChoice == "2":
+            key = "HACK"
+        columns = len(key)
+        rows = len(cipherText) // columns
+        matrix = ['' for _ in range(columns)]
+        keyOrder = sorted(list(key))
+        
+        current_index = 0
+        for k in keyOrder:
+            col_index = key.index(k)
+            matrix[col_index] = cipherText[current_index:current_index + rows]
+            current_index += rows
+
+        plainText = ""
+        for i in range(len(matrix[0])):
+            for col in matrix:
+                plainText += col[i]
+        
+        print("Plaintext: " + plainText)
+    else: 
+        print("ERROR: choice not detected. Please try again.")
 
 def doubleTransp():
-    plainText = input("Enter plaintext: ")
-    plainText = plainText.replace(" ", "")
-    keyChoice = input("1) Encryption Key \n2) Default key ")
-    if keyChoice == "":
-        print("ERROR: no key detected")
-    elif keyChoice == "1":
-        key1 = (input("Enter key 1: "))
-        key2 = (input("Enter key 2: "))
-    elif keyChoice == "2":
-        key1 = "HACK"
-        key2 = "CODE"
+    choice = input("1) Encryption \n2) Decryption ")
+    if choice == "1":
+        plainText = input("Enter plaintext: ")
+        plainText = plainText.replace(" ", "")
+        keyChoice = input("1) Encryption Key \n2) Default key ")
+        if keyChoice == "":
+            print("ERROR: no key detected")
+        elif keyChoice == "1":
+            key1 = (input("Enter key 1: "))
+            key2 = (input("Enter key 2: "))
+        elif keyChoice == "2":
+            key1 = "HACK"
+            key2 = "CODE"
 
-    while len(plainText) % len(key1) != 0:
-        plainText += "X"
+        while len(plainText) % len(key1) != 0:
+            plainText += "X"
 
-    keyOrder1 = sorted(list(key1))
-    columns = len(key1)
-    rows = len(plainText) // columns
-    matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
+        keyOrder1 = sorted(list(key1))
+        columns = len(key1)
+        rows = len(plainText) // columns
+        matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
 
-    transposed = ''
-    for k in keyOrder1:
-        index = key1.index(k)
-        for row in matrix:
-            transposed += row[index]
+        transposed = ''
+        for k in keyOrder1:
+            index = key1.index(k)
+            for row in matrix:
+                transposed += row[index]
 
-    keyOrder2 = sorted(list(key2))
-    columns = len(key2)
-    rows = len(plainText) // columns
-    matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
+        keyOrder2 = sorted(list(key2))
+        columns = len(key2)
+        rows = len(plainText) // columns
+        matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
 
-    transposed = ''
-    for k in keyOrder2:
-        index = key2.index(k)
-        for row in matrix:
-            transposed += row[index]
+        transposed = ''
+        for k in keyOrder2:
+            index = key2.index(k)
+            for row in matrix:
+                transposed += row[index]
 
-    print(transposed)
+        print("Ciphertext: " + transposed)
+    elif choice == "2":
+        cipherText = input("Enter ciphertext: ")
+        keyChoice = input("1) Encryption Key \n2) Default key ")
+        if keyChoice == "":
+            print("ERROR: no key detected")
+        elif keyChoice == "1":
+            key1 = (input("Enter key 1: "))
+            key2 = (input("Enter key 2: "))
+        elif keyChoice == "2":
+            key1 = "HACK"
+            key2 = "CODE"
+
+        columns1 = len(key2)
+        rows1 = len(cipherText) // columns1
+
+        matrix1 = ['' for _ in range(columns1)]
+        current_index = 0
+        keyOrder2 = sorted(list(key2))
+
+        for k_2 in keyOrder2:
+            col_index = key2.index(k_2)
+            matrix1[col_index] = cipherText[current_index:current_index + rows1]
+            current_index += rows1
+        
+        incompletePT = ""
+        for i in range(rows1):
+            for col in matrix1:
+                incompletePT += col[i]
+
+        columns2 = len(key1)
+        rows2 = len(incompletePT) // columns2
+
+        matrix2 = ['' for _ in range(columns2)]
+        current_index = 0
+        keyOrder1 = sorted(list(key1))
+
+        for k_1 in keyOrder1:
+            col_index = key1.index(k_1)
+            matrix2[col_index] = incompletePT[current_index:current_index + rows2]
+            current_index += rows2
+
+        plainText = ""
+        for i in range(rows2):
+            for col in matrix2:
+                plainText += col[i]
+        print("Plaintext: " + plainText)
+        
+    else:
+        print("ERROR: choice not detected. Please try again.")
+
 
 def vignere():
     pass
