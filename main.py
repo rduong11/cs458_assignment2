@@ -146,10 +146,71 @@ def permCipher():
     # print(permuted_alphabet)
 
 def simpleTransp():
-    pass 
+    plainText = input("Enter plaintext: ")
+    plainText = plainText.replace(" ", "")
+    keyChoice = input("1) Encryption Key \n2) Default key ")
+    if keyChoice == "":
+        print("ERROR: no key detected")
+    elif keyChoice == "1":
+        key = (input("Enter key: "))
+    elif keyChoice == "2":
+        key = "HACK"
+
+    while len(plainText) % len(key) != 0:
+        plainText += "X"
+
+    keyOrder = sorted(list(key))
+    columns = len(key)
+    rows = len(plainText) // columns
+    matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
+
+    transposed = ''
+    for k in keyOrder:
+        index = key.index(k)
+        for row in matrix:
+            transposed += row[index]
+
+    print(transposed)
 
 def doubleTransp():
-    pass
+    plainText = input("Enter plaintext: ")
+    plainText = plainText.replace(" ", "")
+    keyChoice = input("1) Encryption Key \n2) Default key ")
+    if keyChoice == "":
+        print("ERROR: no key detected")
+    elif keyChoice == "1":
+        key1 = (input("Enter key 1: "))
+        key2 = (input("Enter key 2: "))
+    elif keyChoice == "2":
+        key1 = "HACK"
+        key2 = "CODE"
+
+    while len(plainText) % len(key1) != 0:
+        plainText += "X"
+
+    keyOrder1 = sorted(list(key1))
+    columns = len(key1)
+    rows = len(plainText) // columns
+    matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
+
+    transposed = ''
+    for k in keyOrder1:
+        index = key1.index(k)
+        for row in matrix:
+            transposed += row[index]
+
+    keyOrder2 = sorted(list(key2))
+    columns = len(key2)
+    rows = len(plainText) // columns
+    matrix = [plainText[i * columns:(i + 1) * columns] for i in range(rows)]
+
+    transposed = ''
+    for k in keyOrder2:
+        index = key2.index(k)
+        for row in matrix:
+            transposed += row[index]
+
+    print(transposed)
 
 def vignere():
     pass
@@ -185,10 +246,10 @@ match firstArgument:
         else:
             print("ERROR: Out of index, please try again with number 1/2")
     case "2":
-        choice = input("1) Simple Transposition \n 2) Double Transposition ")
-        if choice == 1:
+        choice = input("1) Simple Transposition \n2) Double Transposition ")
+        if choice == "1":
             simpleTransp()
-        elif choice == 2:
+        elif choice == "2":
             doubleTransp()
         else:
             print("ERROR: Out of index, please try again with number 1/2")
