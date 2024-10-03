@@ -8,10 +8,10 @@ indices = {index: letter for letter, index in alphabet.items()}
 
 #needed for permutation
 numbers = list(range(1,53))
-shuffled_alphabet = list(alphabet)
-random.shuffle(shuffled_alphabet)
+shuffledAlphabet = list(alphabet)
+random.shuffle(shuffledAlphabet)
 #default key permutation
-permuted_alphabet = {original: permuted for original, permuted in zip(alphabet, shuffled_alphabet)}
+permutedAlphabet = {original: permuted for original, permuted in zip(alphabet, shuffledAlphabet)}
 
 
 def shiftCipher():
@@ -95,7 +95,7 @@ def permCipher():
         elif keyChoice == "1":
             key = int(input("Enter encryption key (permuted alphabet of choice): "))
         elif keyChoice == "2":
-            key = permuted_alphabet
+            key = permutedAlphabet
             print("Default key will be used.")
         
         cipherText = ""
@@ -124,7 +124,7 @@ def permCipher():
         elif keyChoice == "1":
             key = int(input("Enter encryption key (permuted alphabet of choice): "))
         elif keyChoice == "2":
-            key = permuted_alphabet
+            key = permutedAlphabet
 
         plainText = ""
 
@@ -143,7 +143,7 @@ def permCipher():
     else: 
         print("ERROR: choice not detected. Please try again.")
 
-    # print(permuted_alphabet)
+
 
 def simpleTransp():
     choice = input("1) Encryption \n2) Decryption ")
@@ -187,11 +187,11 @@ def simpleTransp():
         matrix = ['' for _ in range(columns)]
         keyOrder = sorted(list(key))
         
-        current_index = 0
+        currentIndex = 0
         for k in keyOrder:
-            col_index = key.index(k)
-            matrix[col_index] = cipherText[current_index:current_index + rows]
-            current_index += rows
+            colIndex = key.index(k)
+            matrix[colIndex] = cipherText[currentIndex:currentIndex + rows]
+            currentIndex += rows
 
         plainText = ""
         for i in range(len(matrix[0])):
@@ -259,13 +259,13 @@ def doubleTransp():
         rows1 = len(cipherText) // columns1
 
         matrix1 = ['' for _ in range(columns1)]
-        current_index = 0
+        currentIndex = 0
         keyOrder2 = sorted(list(key2))
 
         for k_2 in keyOrder2:
-            col_index = key2.index(k_2)
-            matrix1[col_index] = cipherText[current_index:current_index + rows1]
-            current_index += rows1
+            colIndex = key2.index(k_2)
+            matrix1[colIndex] = cipherText[currentIndex:currentIndex + rows1]
+            currentIndex += rows1
         
         incompletePT = ""
         for i in range(rows1):
@@ -276,13 +276,13 @@ def doubleTransp():
         rows2 = len(incompletePT) // columns2
 
         matrix2 = ['' for _ in range(columns2)]
-        current_index = 0
+        currentIndex = 0
         keyOrder1 = sorted(list(key1))
 
         for k_1 in keyOrder1:
-            col_index = key1.index(k_1)
-            matrix2[col_index] = incompletePT[current_index:current_index + rows2]
-            current_index += rows2
+            colIndex = key1.index(k_1)
+            matrix2[colIndex] = incompletePT[currentIndex:currentIndex + rows2]
+            currentIndex += rows2
 
         plainText = ""
         for i in range(rows2):
@@ -295,7 +295,59 @@ def doubleTransp():
 
 
 def vignere():
-    pass
+    choice = input("1) Encryption \n2) Decryption ")
+    if choice == "1":
+        stringAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        keyIndex = 0
+        cipherText = ""
+
+        plainText = input("Enter plaintext: ")
+        keyChoice = input("1) Encryption Key \n2) Default key ")
+        if keyChoice == "":
+            print("ERROR: no key detected")
+        elif keyChoice == "1":
+            key = (input("Enter key 1: "))
+        elif keyChoice == "2":
+            key = "HACK"
+
+        for char in plainText:
+            if char.isalpha():
+                isUpper = char.isupper()
+                baseAlphabet = stringAlphabet if isUpper else stringAlphabet.lower()
+
+                charPos = baseAlphabet.index(char)
+                keyPos = stringAlphabet.index(key[keyIndex % len(key)].upper())
+
+                newPos = (charPos + keyPos) % 26
+                cipherText += baseAlphabet[newPos]
+                keyIndex += 1
+            else:
+                cipherText += char
+
+        print("Ciphertext: " + cipherText)
+    elif choice == "2":
+        stringAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        keyIndex = 0
+        plainText = ""
+
+        for char in cipherText:
+            if char.isalpha():
+                isUpper = char.isupper()
+                baseAlphabet = stringAlphabet if isUpper else stringAlphabet.lower()
+
+                charPos = baseAlphabet.index(char)
+                keyPos = stringAlphabet.index(key[keyIndex % len(key)].upper())
+                
+                newPos = (charPos - keyPos) % 26
+                plainText += baseAlphabet[newPos]
+                keyIndex += 1
+            else:
+                plainText += char
+        
+        print("Plaintext: "+ plainText)
+
+    else: 
+        print("ERROR: choice not detected. Please try again.")
 
 def encAlgo():
     pass
