@@ -1,6 +1,11 @@
 import sys
 import string
 import random
+from Crypto.Cipher import AES
+from Crypto.Cipher import DES
+from Crypto.Cipher import DES3
+from Crypto.Random import get_random_bytes
+import base64
 
 #needed for shift
 alphabet = {letter: index for index, letter in enumerate(string.ascii_letters, start=0)}
@@ -350,8 +355,110 @@ def vignere():
         print("ERROR: choice not detected. Please try again.")
 
 def encAlgo():
-    pass
+    algoChoice = input("1)AES-128 \n2)DES, \n 3)3DES")
+    match algoChoice:
+        case "1":
+            choice = input("1) Encryption \n2) Decryption ")
+            if choice == "1":
+                plainText = input("Enter plaintext: ")
+                keyChoice = input("1) Encryption Key \n2) Default key ")
+                if keyChoice == "":
+                    print("ERROR: no key detected")
+                elif keyChoice == "1":
+                    key = (input("Enter key 1: "))
+                elif keyChoice == "2":
+                    key = "HACK"
 
+                key = key[:16].ljust(16, ' ')
+                cipherText = AES.new(key.encode('utf-8'), AES.MODE_ECB)
+                paddedText = plainText.ljust((len(plainText) + 15) // 16 * 16)
+                encrypted = cipherText.encrypt(paddedText.encode('utf-8'))
+                print(base64.b64encode(encrypted).decode('utf-8')) 
+            
+            elif choice == "2":
+                cipherText = input("Enter ciphertext: ")
+                keyChoice = input("1) Encryption Key \n2) Default key ")
+                if keyChoice == "":
+                    print("ERROR: no key detected")
+                elif keyChoice == "1":
+                    key = (input("Enter key 1: "))
+                elif keyChoice == "2":
+                    key = "HACK"
+                
+                key = key[:16].ljust(16, ' ')
+                cipherText = AES.new(key.encode('utf-8'), AES.MODE_ECB)
+                decrypted = cipherText.decrypt(base64.b64decode(cipherText))
+                print(decrypted.decode('utf-8').strip())
+            else: 
+                print("ERROR: choice not detected. Please try again.")
+        case "2":
+            choice = input("1) Encryption \n2) Decryption ")
+            if choice == "1":
+                plainText = input("Enter plaintext: ")
+                keyChoice = input("1) Encryption Key \n2) Default key ")
+                if keyChoice == "":
+                    print("ERROR: no key detected")
+                elif keyChoice == "1":
+                    key = (input("Enter key 1: "))
+                elif keyChoice == "2":
+                    key = "HACK"
+
+                key = key[:8].ljust(8, ' ') 
+                cipherText = DES.new(key.encode('utf-8'), DES.MODE_ECB)
+                paddedText = plainText.ljust((len(plainText) + 7) // 8 * 8)  
+                encrypted = cipherText.encrypt(paddedText.encode('utf-8'))
+                print (base64.b64encode(encrypted).decode('utf-8'))
+            elif choice == "2":
+                cipherText = input("Enter ciphertext: ")
+                keyChoice = input("1) Encryption Key \n2) Default key ")
+                if keyChoice == "":
+                    print("ERROR: no key detected")
+                elif keyChoice == "1":
+                    key = (input("Enter key 1: "))
+                elif keyChoice == "2":
+                    key = "HACK"
+
+                key = key[:8].ljust(8, ' ')  
+                cipherText = DES.new(key.encode('utf-8'), DES.MODE_ECB)
+                decrypted = cipherText.decrypt(base64.b64decode(cipherText))
+                print(decrypted.decode('utf-8').strip())
+            else: 
+                print("ERROR: choice not detected. Please try again.")
+        case "3":
+            choice = input("1) Encryption \n2) Decryption ")
+            if choice == "1":
+                if choice == "1":
+                    plainText = input("Enter plaintext: ")
+                    keyChoice = input("1) Encryption Key \n2) Default key ")
+                if keyChoice == "":
+                    print("ERROR: no key detected")
+                elif keyChoice == "1":
+                    key = (input("Enter key 1: "))
+                elif keyChoice == "2":
+                        key = "HACK"
+
+                key = key[:24].ljust(24, ' ')  # Ensure key is 24 bytes (192 bits)
+                cipherText = DES3.new(key.encode('utf-8'), DES3.MODE_ECB)
+                paddedText = plainText.ljust((len(plainText) + 7) // 8 * 8)  # Padding to 8-byte blocks
+                encrypted = cipherText.encrypt(paddedText.encode('utf-8'))
+                print(base64.b64encode(encrypted).decode('utf-8'))
+            elif choice == "2":
+                cipherText = input("Enter ciphertext: ")
+                keyChoice = input("1) Encryption Key \n2) Default key ")
+                if keyChoice == "":
+                    print("ERROR: no key detected")
+                elif keyChoice == "1":
+                    key = (input("Enter key 1: "))
+                elif keyChoice == "2":
+                    key = "HACK"
+
+                key = key[:24].ljust(24, ' ')  # Ensure key is 24 bytes
+                cipherText = DES3.new(key.encode('utf-8'), DES3.MODE_ECB)
+                decrypted = cipherText.decrypt(base64.b64decode(cipherText))
+            else: 
+                print("ERROR: choice not detected. Please try again.")
+        case _:
+            print("ERROR: Out of index, please enter number 1-3")
 def encMode():
     pass 
 
