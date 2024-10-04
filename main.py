@@ -404,7 +404,7 @@ def encAlgo():
                     key = "HACK"
 
                 key = key[:8].ljust(8, ' ') 
-                cipherText = DES.new(key.encode('utf-8'), DES.MODE_ECB)
+                cipherText = DES.new(key.encode('utf-8'), DES.MODE_CBC)
                 paddedText = plainText.ljust((len(plainText) + 7) // 8 * 8)  
                 encrypted = cipherText.encrypt(paddedText.encode('utf-8'))
                 print (base64.b64encode(encrypted).decode('utf-8'))
@@ -419,7 +419,7 @@ def encAlgo():
                     key = "HACK"
 
                 key = key[:8].ljust(8, ' ')  
-                cipherText = DES.new(key.encode('utf-8'), DES.MODE_ECB)
+                cipherText = DES.new(key.encode('utf-8'), DES.MODE_CBC)
                 decrypted = cipherText.decrypt(base64.b64decode(cipherText))
                 print(decrypted.decode('utf-8').strip())
             else: 
@@ -438,7 +438,7 @@ def encAlgo():
                         key = "HACK"
 
                 key = key[:24].ljust(24, ' ')  # Ensure key is 24 bytes (192 bits)
-                cipherText = DES3.new(key.encode('utf-8'), DES3.MODE_ECB)
+                cipherText = DES3.new(key.encode('utf-8'), DES3.MODE_CFB)
                 paddedText = plainText.ljust((len(plainText) + 7) // 8 * 8)  # Padding to 8-byte blocks
                 encrypted = cipherText.encrypt(paddedText.encode('utf-8'))
                 print(base64.b64encode(encrypted).decode('utf-8'))
@@ -453,7 +453,7 @@ def encAlgo():
                     key = "HACK"
 
                 key = key[:24].ljust(24, ' ')  # Ensure key is 24 bytes
-                cipherText = DES3.new(key.encode('utf-8'), DES3.MODE_ECB)
+                cipherText = DES3.new(key.encode('utf-8'), DES3.MODE_CFB)
                 decrypted = cipherText.decrypt(base64.b64decode(cipherText))
             else: 
                 print("ERROR: choice not detected. Please try again.")
