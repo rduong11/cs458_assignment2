@@ -459,8 +459,7 @@ def encAlgo():
                 print("ERROR: choice not detected. Please try again.")
         case _:
             print("ERROR: Out of index, please enter number 1-3")
-def encMode():
-    pass 
+
 
 if len(sys.argv) != 2:
     print("ERROR: Not enough/too many input arguments.")
@@ -498,8 +497,6 @@ match firstArgument:
         vignere()
     case "4":
         encAlgo()
-    case "5":
-        encMode()
     case _:
         print("ERROR: Out of index, please enter number 1-5")
 
