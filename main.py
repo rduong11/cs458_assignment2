@@ -5,6 +5,7 @@ from Crypto.Cipher import AES
 from Crypto.Cipher import DES
 from Crypto.Cipher import DES3
 from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import unpad
 import base64
 
 #needed for shift
@@ -355,7 +356,7 @@ def vignere():
         print("ERROR: choice not detected. Please try again.")
 
 def encAlgo():
-    algoChoice = input("1)AES-128 \n2)DES, \n 3)3DES")
+    algoChoice = input("1)AES-128 \n2)DES \n3)3DES")
     match algoChoice:
         case "1":
             choice = input("1) Encryption \n2) Decryption ")
@@ -367,7 +368,7 @@ def encAlgo():
                 elif keyChoice == "1":
                     key = (input("Enter key 1: "))
                 elif keyChoice == "2":
-                    key = "HACK"
+                    key = "HACKCODEHAWKTUAH"
 
                 key = key[:16].ljust(16, ' ')
                 cipherText = AES.new(key.encode('utf-8'), AES.MODE_ECB)
@@ -383,11 +384,12 @@ def encAlgo():
                 elif keyChoice == "1":
                     key = (input("Enter key 1: "))
                 elif keyChoice == "2":
-                    key = "HACK"
+                    key = "HACKCODEHAWKTUAH"
                 
                 key = key[:16].ljust(16, ' ')
-                cipherText = AES.new(key.encode('utf-8'), AES.MODE_ECB)
-                decrypted = cipherText.decrypt(base64.b64decode(cipherText))
+                aesCipher = AES.new(key.encode('utf-8'), AES.MODE_ECB)
+                cipherTextBytes = base64.b64decode(cipherText)
+                decrypted = aesCipher.decrypt(cipherTextBytes)
                 print(decrypted.decode('utf-8').strip())
             else: 
                 print("ERROR: choice not detected. Please try again.")
@@ -401,7 +403,7 @@ def encAlgo():
                 elif keyChoice == "1":
                     key = (input("Enter key 1: "))
                 elif keyChoice == "2":
-                    key = "HACK"
+                    key = "HAWKTUAH"
 
                 key = key[:8].ljust(8, ' ') 
                 cipherText = DES.new(key.encode('utf-8'), DES.MODE_CBC)
@@ -416,12 +418,16 @@ def encAlgo():
                 elif keyChoice == "1":
                     key = (input("Enter key 1: "))
                 elif keyChoice == "2":
-                    key = "HACK"
+                    key = "HAWKTUAH"
 
                 key = key[:8].ljust(8, ' ')  
-                cipherText = DES.new(key.encode('utf-8'), DES.MODE_CBC)
-                decrypted = cipherText.decrypt(base64.b64decode(cipherText))
-                print(decrypted.decode('utf-8').strip())
+                cipherTextBytes = base64.b64decode(cipherText)
+                iv = cipherTextBytes[:8]
+                encryptedMessage = cipherTextBytes[8:]
+                desCipher = DES.new(key.encode('utf-8'), DES.MODE_CBC, iv)
+                decrypted = desCipher.decrypt(encryptedMessage)
+                plainText = unpad(decrypted, DES.block_size)
+                print(plainText.decode('utf-8').strip())
             else: 
                 print("ERROR: choice not detected. Please try again.")
         case "3":
@@ -435,11 +441,11 @@ def encAlgo():
                 elif keyChoice == "1":
                     key = (input("Enter key 1: "))
                 elif keyChoice == "2":
-                        key = "HACK"
+                        key = "KEJBIEPRNDJWIEKDIWJLAPQM"
 
-                key = key[:24].ljust(24, ' ')  # Ensure key is 24 bytes (192 bits)
+                key = key[:24].ljust(24, ' ')  
                 cipherText = DES3.new(key.encode('utf-8'), DES3.MODE_CFB)
-                paddedText = plainText.ljust((len(plainText) + 7) // 8 * 8)  # Padding to 8-byte blocks
+                paddedText = plainText.ljust((len(plainText) + 7) // 8 * 8)  #padding to 8-byte blocks
                 encrypted = cipherText.encrypt(paddedText.encode('utf-8'))
                 print(base64.b64encode(encrypted).decode('utf-8'))
             elif choice == "2":
@@ -448,13 +454,17 @@ def encAlgo():
                 if keyChoice == "":
                     print("ERROR: no key detected")
                 elif keyChoice == "1":
-                    key = (input("Enter key 1: "))
+                    key = (input("Enter key: "))
                 elif keyChoice == "2":
-                    key = "HACK"
+                    key = "HAWKTA12345678GHTUPOWXYZ"
 
-                key = key[:24].ljust(24, ' ')  # Ensure key is 24 bytes
-                cipherText = DES3.new(key.encode('utf-8'), DES3.MODE_CFB)
-                decrypted = cipherText.decrypt(base64.b64decode(cipherText))
+                key = key[:24].ljust(24, ' ')  
+                iv = b"01234567"
+                des3Cipher = DES3.new(key.encode('utf-8'), DES3.MODE_CFB, iv=iv)
+                cipherTextBytes = base64.b64decode(cipherText)
+                decrypted = des3Cipher.decrypt(cipherTextBytes)
+                print("Decrypted raw data (hex):", decrypted.hex())
+                #print(decrypted.decode('utf-8').strip())
             else: 
                 print("ERROR: choice not detected. Please try again.")
         case _:
