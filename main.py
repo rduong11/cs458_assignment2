@@ -336,6 +336,15 @@ def vignere():
         keyIndex = 0
         plainText = ""
 
+        cipherText = input("Enter ciphertext: ")
+        keyChoice = input("1) Encryption Key \n2) Default key ")
+        if keyChoice == "":
+            print("ERROR: no key detected")
+        elif keyChoice == "1":
+            key = (input("Enter key 1: "))
+        elif keyChoice == "2":
+            key = "HACK"
+            
         for char in cipherText:
             if char.isalpha():
                 isUpper = char.isupper()
@@ -463,8 +472,8 @@ def encAlgo():
                 des3Cipher = DES3.new(key.encode('utf-8'), DES3.MODE_CFB, iv=iv)
                 cipherTextBytes = base64.b64decode(cipherText)
                 decrypted = des3Cipher.decrypt(cipherTextBytes)
-                print("Decrypted raw data (hex):", decrypted.hex())
-                #print(decrypted.decode('utf-8').strip())
+                #print("Decrypted raw data (hex):", decrypted.hex())
+                print(decrypted.decode('utf-8').strip())
             else: 
                 print("ERROR: choice not detected. Please try again.")
         case _:
@@ -482,8 +491,6 @@ if len(sys.argv) != 2:
 #3 is vigenere
 #4 is diff encryption algorithm
 #5 is diff encryption modes
-
-option = ""
 
 firstArgument = sys.argv[1]
 match firstArgument: 
