@@ -344,7 +344,7 @@ def vignere():
             key = (input("Enter key 1: "))
         elif keyChoice == "2":
             key = "HACK"
-            
+
         for char in cipherText:
             if char.isalpha():
                 isUpper = char.isupper()
@@ -381,7 +381,7 @@ def encAlgo():
 
                 key = key[:16].ljust(16, ' ')
                 cipherText = AES.new(key.encode('utf-8'), AES.MODE_ECB)
-                paddedText = plainText.ljust((len(plainText) + 15) // 16 * 16)
+                paddedText = plainText.ljust((len(plainText) + 15) // 16 * 16) #padding to 16 bytes
                 encrypted = cipherText.encrypt(paddedText.encode('utf-8'))
                 print(base64.b64encode(encrypted).decode('utf-8')) 
             
@@ -416,7 +416,7 @@ def encAlgo():
 
                 key = key[:8].ljust(8, ' ') 
                 cipherText = DES.new(key.encode('utf-8'), DES.MODE_CBC)
-                paddedText = plainText.ljust((len(plainText) + 7) // 8 * 8)  
+                paddedText = plainText.ljust((len(plainText) + 7) // 8 * 8)  #padding to 8 bytes
                 encrypted = cipherText.encrypt(paddedText.encode('utf-8'))
                 print (base64.b64encode(encrypted).decode('utf-8'))
             elif choice == "2":
